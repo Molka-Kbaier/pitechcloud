@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ajouter un Certificat</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <style>
+        /* Styles personnalisés */
+        body {
+            padding-top: 20px;
+            padding-bottom: 20px;
+        }
+        .form-group {
+            margin-bottom: 20px;
+        }
+        label {
+            font-weight: bold;
+        }
+        textarea {
+            resize: vertical;
+        }
+        .btn-submit {
+            width: 50%;
+        }
+        .btn-cancel {
+            width: 50%;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <h2 class="mb-4">Ajouter un Certificat</h2>
+    <form action="#" th:action="@{/certificat/addCertificat}" th:object="${certificat}" method="post" enctype="multipart/form-data">
+        <div class="row">
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label for="dateDelivrance">Date de Délivrance</label>
+                    <input type="date" class="form-control" id="dateDelivrance" name="dateDelivrance" th:field="${certificat.dateDelivrance}">
+                    <p th:if="${#fields.hasErrors('dateDelivrance')}" class="text-danger" th:errors="${certificat.dateDelivrance}"></p>
+                </div>
+                <div class="form-group">
+                    <label for="description">Description</label>
+                    <textarea class="form-control" id="description" name="description" th:field="${certificat.description}"></textarea>
+                    <p th:if="${#fields.hasErrors('description')}" class="text-danger" th:errors="${certificat.description}"></p>
+                </div>
+                <div class="form-group">
+                    <label for="statusIcon">Icône de Statut</label>
+                    <input type="file" class="form-control" id="statusIcon" name="statusIcon">
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label for="moduleFormation">Module de Formation</label>
+                    <select class="form-control" id="moduleFormation" name="moduleFormation" th:field="${certificat.moduleFormation}">
+                        <!-- Boucle sur les modules de formation disponibles -->
+                        <option th:each="module : ${allModules}" th:value="${module.id}" th:text="${module.titre}"></option>
+                    </select>
+                    <p th:if="${#fields.hasErrors('moduleFormation')}" class="text-danger" th:errors="${certificat.moduleFormation}"></p>
+                </div>
+                <div class="form-group">
+                    <label for="utilisateur">Utilisateur</label>
+                    <select class="form-control" id="utilisateur" name="utilisateur" th:field="${certificat.utilisateur}">
+                        <!-- Boucle sur les utilisateurs disponibles -->
+                        <option th:each="utilisateur : ${allUtilisateurs}" th:value="${utilisateur.id}" th:text="${utilisateur.nom}"></option>
+                    </select>
+                    <p th:if="${#fields.hasErrors('utilisateur')}" class="text-danger" th:errors="${certificat.utilisateur}"></p>
+                </div>
+            </div>
+        </div>
+        <!-- Ajoutez d'autres champs de formulaire ici en utilisant les expressions Thymeleaf -->
+
+        <div class="row">
+            <div class="col-md-6">
+                <button type="submit" class="btn btn-primary btn-submit">Ajouter</button>
+            </div>
+            <div class="col-md-6">
+                <a class="btn btn-outline-primary btn-cancel" href="/certificat/retrieveallCertificat" role="button">Annuler</a>
+            </div>
+        </div>
+    </form>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+</body>
+</html>
